@@ -5,6 +5,8 @@
  */
 package db4o_pilot;
 
+import java.util.List;
+
 /**
  *
  * @author TUF
@@ -13,7 +15,7 @@ public class Car// class Car.java
 {
 
     public String model;
-    public Pilot pilot;
+    public Pilot pilot; 
 
     public Car(String model) {
         this.model = model;

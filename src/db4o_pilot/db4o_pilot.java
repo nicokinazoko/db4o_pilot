@@ -23,33 +23,55 @@ public class db4o_pilot {//kelas ini di-run untuk mengeksekusi semua methods
         //ObjectContainer db=Db4o.openFile("Car_Pilot.yap");
         ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
         try {
-            storeFirstCar(db);
-            storeSecondCar(db);
+                storeCarCommit(db);
+                storeCarRollback(db);
+//            storeFirstCar(db);
+//            storeSecondCar(db);
 //            retrieveAllCarsQBE(db);
 //            retrieveAllPilotsNative(db);
 //            retrieveAllPilotsQBE(db);
-            retrieveCarByPilotQBE(db);
-            retrieveCarByPilotNameQuery(db);
-            retrieveCarByPilotProtoQuery(db);
-            retrievePilotByCarModelQuery(db);
-            updateCar(db);
-            updatePilotSingleSession(db);
-            updatePilotSeparateSessionsPart1(db);
-            db.close();
-            db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
-            updatePilotSeparateSessionsPart2(db);
-            db.close();
-            updatePilotSeparateSessionsImprovedPart1();
-            updatePilotSeparateSessionsImprovedPart2();
-            db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
+//            retrieveCarByPilotQBE(db);
+//            retrieveCarByPilotNameQuery(db);
+//            retrieveCarByPilotProtoQuery(db);
+//            retrievePilotByCarModelQuery(db);
+//            updateCar(db);
+//            updatePilotSingleSession(db);
+//            updatePilotSeparateSessionsPart1(db);
+//            db.close();
+//            db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
+//            updatePilotSeparateSessionsPart2(db);
+//            db.close();
+//            updatePilotSeparateSessionsImprovedPart1();
+//            updatePilotSeparateSessionsImprovedPart2();
+//            db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);
 //            deleteFlat(db);
-            db.close();
+//            db.close();
 //            deleteDeep();
 //            deleteDeepRevisited();
-            retrieveAllPilotsNative(db);
+//            retrieveAllPilotsNative(db);
         } finally {
             db.close();
         }
+    }
+    
+    public static void storeCarCommit(ObjectContainer db){
+        Pilot pilot     =   new Pilot("Ruben Barrichelo", 99);
+        Car car         =   new Car("BMW");
+        car.setPilot(pilot);
+        db.store(car);
+        db.commit();    
+        ObjectSet result =  db.queryByExample(Car.class);
+        listResult(result);
+    }
+    
+    public static void storeCarRollback(ObjectContainer db){
+        Pilot pilot     =   new Pilot("Michael Schumacher", 100);
+        Car car         =   new Car("Ferrari");
+        car.setPilot(pilot);;
+        db.store(car);
+        db.rollback();
+        ObjectSet result=   db.queryByExample(Car.class);
+        listResult(result);
     }
 
     public static void storeFirstCar(ObjectContainer db) {
